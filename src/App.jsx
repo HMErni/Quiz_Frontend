@@ -1,15 +1,8 @@
-import Login from './Login/Login';
+import { Outlet } from 'react-router-dom';
+import Header from './Component/Header';
 
 function App() {
-  return (
-    <>
-      {/* <Header />
-      <Welcome />
-      <QuizesList />
-      <Quiz /> */}
-      <Login />
-    </>
-  );
+  return <Outlet />;
 }
 
 export default App;

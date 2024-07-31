@@ -1,17 +1,26 @@
 import { useForm } from 'react-hook-form';
-import { useNewLoginMutation } from './LoginSlice';
-import { useEffect } from 'react';
+import { useNewLoginMutation } from './LoginAPI';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [login, { isLoading, isError, data }] = useNewLoginMutation();
+  const [login, { isLoading, isError, data: User, isSuccess }] =
+    useNewLoginMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    await login(data);
+  const navigate = useNavigate();
+
+  const onSubmit = (userData) => {
+    login(userData);
+
+    if (isSuccess) {
+      console.log(User);
+      navigate('/dashboard');
+    }
   };
 
   return (

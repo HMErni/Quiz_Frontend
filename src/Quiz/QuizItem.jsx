@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 function QuizItem({ quiz }) {
   return (
     <div className="mx-5 mt-5 flex min-h-80 flex-col rounded-lg border-2 border-fuchsia-700 p-5">
