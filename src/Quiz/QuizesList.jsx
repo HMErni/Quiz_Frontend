@@ -1,26 +1,26 @@
-import { useState } from 'react';
 import QuizItem from './QuizItem';
+import { useSelector } from 'react-redux';
+import Welcome from '../Component/Welcome';
+import { useGetQuizesQuery } from './QuizAPI';
 import { useEffect } from 'react';
 
 function QuizesList() {
-  const [quizes, setQuizes] = useState([]);
+  const { data: Quizes, isLoading, isError, isSuccess } = useGetQuizesQuery();
 
-  useEffect(() => {
-    fetch('http://localhost:5270/QuizList')
-      .then((res) => res.json())
-      .then((data) => setQuizes(data));
-  }, []);
-
-  console.log(quizes);
+  const { results } = useSelector((state) => state.auth);
 
   return (
     <div className="mt-7 h-dvh">
-      {quizes.map((quiz) => (
-        <QuizItem
-          key={quiz.id}
-          quiz={quiz}
-        />
-      ))}
+      <Welcome />
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error</p>}
+      {isSuccess &&
+        Quizes.map((quiz) => (
+          <QuizItem
+            key={quiz.id}
+            quiz={quiz}
+          />
+        ))}
     </div>
   );
 }

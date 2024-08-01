@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const loginSlice = createApi({
+export const authAPI = createApi({
   reducerPath: 'Login',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5270/api',
@@ -19,4 +19,4 @@ export const loginSlice = createApi({
   }),
 });
 
-export const { useNewLoginMutation } = loginSlice;
+export const { useNewLoginMutation } = authAPI;

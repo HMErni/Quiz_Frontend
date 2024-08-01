@@ -1,6 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { useNewLoginMutation } from './LoginAPI';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginAuth, logoutAuth } from './authSlice';
 
 function Login() {
   const [login, { isLoading, isError, data: User, isSuccess }] =
@@ -13,15 +16,26 @@ function Login() {
   } = useForm();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onSubmit = (userData) => {
-    login(userData);
+  const onSubmit = async (userData) => {
+    await login(userData);
+  };
+
+  useEffect(() => {
+    dispatch(logoutAuth());
 
     if (isSuccess) {
-      console.log(User);
+      dispatch(
+        loginAuth({
+          username: User.username,
+          role: User.role,
+          results: User.results,
+        }),
+      );
       navigate('/dashboard');
     }
-  };
+  }, [isSuccess, navigate, User, dispatch]);
 
   return (
     <div className="flex h-screen content-center items-center justify-center">
