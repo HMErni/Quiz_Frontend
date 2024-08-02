@@ -11,7 +11,7 @@ function Welcome() {
       {role === 'admin' && (
         <button
           className="hover:bg-fuchsia-950sss min-w-14 rounded bg-fuchsia-800 px-4 py-2 font-bold text-white"
-          onClick={() => navigate('/createQuiz')}
+          onClick={() => navigate('createQuiz')}
         >
           +
         </button>

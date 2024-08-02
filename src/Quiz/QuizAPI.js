@@ -14,6 +14,14 @@ export const quizAPI = createApi({
       providesTags: ['Quizes'],
     }),
 
+    getQuizbyId: builder.query({
+      query: (id) => ({
+        url: `/QuizList/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['Quizes'],
+    }),
+
     deleteQuiz: builder.mutation({
       query: (id) => ({
         url: `/QuizList/${id}`,
@@ -24,4 +32,5 @@ export const quizAPI = createApi({
   }),
 });
 
-export const { useGetQuizesQuery, useDeleteQuizMutation } = quizAPI;
+export const { useGetQuizesQuery, useGetQuizbyIdQuery, useDeleteQuizMutation } =
+  quizAPI;

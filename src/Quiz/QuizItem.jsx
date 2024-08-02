@@ -1,10 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useDeleteQuizMutation } from './QuizAPI';
+import { useNavigate } from 'react-router-dom';
 
 function QuizItem({ quiz }) {
   const { role } = useSelector((state) => state.auth);
   const { id, quizItems } = quiz;
   const [deleteQuiz] = useDeleteQuizMutation();
+  const navigate = useNavigate();
 
   function handleDeleteQuiz(quizId) {
     try {
@@ -16,13 +18,18 @@ function QuizItem({ quiz }) {
     }
   }
 
-  console.log(quizItems);
+  function handleEditQuiz(quizId) {
+    navigate(`editQuiz/${quizId}`);
+  }
 
   return (
     <div className="mx-5 mt-5 flex min-h-80 flex-col rounded-lg border-2 border-fuchsia-700 p-5">
       {role === 'admin' && (
-        <div className="mb-3 flex gap-2">
-          <button className="min-w-20 rounded bg-fuchsia-800 px-4 py-2 font-bold text-white hover:bg-fuchsia-950">
+        <div className="mb-3 space-x-2 text-right">
+          <button
+            className="min-w-20 rounded bg-fuchsia-800 px-4 py-2 font-bold text-white hover:bg-fuchsia-950"
+            onClick={() => handleEditQuiz(id)}
+          >
             Edit
           </button>
           <button
