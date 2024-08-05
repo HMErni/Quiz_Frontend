@@ -1,4 +1,4 @@
-function Quiz() {
+function PlayQuiz() {
   return (
     <div className="mx-5">
       <button className="mt-10 min-w-24 rounded bg-fuchsia-800 px-4 py-2 font-bold text-white hover:bg-fuchsia-950">
@@ -41,4 +41,4 @@ function Quiz() {
   );
 }
 
-export default Quiz;
+export default PlayQuiz;

@@ -1,12 +1,7 @@
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-const AddQuizItemModal = ({
-  onClose,
-  onAdd,
-  initialData = {},
-  mode = 'add',
-}) => {
+function AddQuizItemModal({ onClose, onAdd, initialData = {}, mode = 'add' }) {
   const { register, handleSubmit, control, reset, setValue } = useForm({
     defaultValues: initialData,
   });
@@ -84,13 +79,15 @@ const AddQuizItemModal = ({
                 </button>
               </div>
             ))}
-            <button
-              type="button"
-              onClick={() => append('')}
-              className="focus:shadow-outline rounded bg-fuchsia-700 px-4 py-2 font-bold text-white hover:bg-fuchsia-800 focus:outline-none"
-            >
-              Add Answer
-            </button>
+            {fields.length < 3 && (
+              <button
+                type="button"
+                onClick={() => append('')}
+                className="focus:shadow-outline rounded bg-fuchsia-700 px-4 py-2 font-bold text-white hover:bg-fuchsia-800 focus:outline-none"
+              >
+                Add Answer
+              </button>
+            )}
           </div>
           <div className="flex justify-end">
             <button
@@ -111,6 +108,6 @@ const AddQuizItemModal = ({
       </div>
     </div>
   );
-};
+}
 
 export default AddQuizItemModal;

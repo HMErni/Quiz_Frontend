@@ -22,6 +22,26 @@ export const quizAPI = createApi({
       providesTags: ['Quizes'],
     }),
 
+    createQuiz: builder.mutation({
+      query: (quiz) => ({
+        url: '/QuizList',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: quiz,
+      }),
+      invalidatesTags: ['Quizes'],
+    }),
+
+    updateQuiz: builder.mutation({
+      query: ({ id, quiz }) => ({
+        url: `/QuizList/${id}`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: quiz,
+      }),
+      invalidatesTags: ['Quizes'],
+    }),
+
     deleteQuiz: builder.mutation({
       query: (id) => ({
         url: `/QuizList/${id}`,
@@ -32,5 +52,10 @@ export const quizAPI = createApi({
   }),
 });
 
-export const { useGetQuizesQuery, useGetQuizbyIdQuery, useDeleteQuizMutation } =
-  quizAPI;
+export const {
+  useGetQuizesQuery,
+  useGetQuizbyIdQuery,
+  useCreateQuizMutation,
+  useUpdateQuizMutation,
+  useDeleteQuizMutation,
+} = quizAPI;

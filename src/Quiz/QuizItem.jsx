@@ -8,7 +8,7 @@ function QuizItem({ quiz }) {
   const [deleteQuiz] = useDeleteQuizMutation();
   const navigate = useNavigate();
 
-  function handleDeleteQuiz(quizId) {
+  const handleDeleteQuiz = (quizId) => {
     try {
       if (confirm('Are you sure you want to delete this quiz?')) {
         deleteQuiz(quizId);
@@ -16,11 +16,11 @@ function QuizItem({ quiz }) {
     } catch (error) {
       console.error("Can't delete quiz", error);
     }
-  }
+  };
 
-  function handleEditQuiz(quizId) {
+  const handleEditQuiz = (quizId) => {
     navigate(`editQuiz/${quizId}`);
-  }
+  };
 
   return (
     <div className="mx-5 mt-5 flex min-h-80 flex-col rounded-lg border-2 border-fuchsia-700 p-5">
@@ -33,7 +33,7 @@ function QuizItem({ quiz }) {
             Edit
           </button>
           <button
-            className="hover:bg- fuchsia-950 min-w-20 rounded bg-fuchsia-800 px-4 py-2 font-bold text-white"
+            className="min-w-20 rounded bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-800"
             onClick={() => handleDeleteQuiz(id)}
           >
             Delete

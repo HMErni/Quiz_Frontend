@@ -7,11 +7,10 @@ import { store } from './store.js';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './Login/Login.jsx';
 import AppLayout from './UI/AppLayout.jsx';
-import Header from './Component/Header.jsx';
-import Welcome from './Component/Welcome.jsx';
 import QuizesList from './Quiz/QuizesList.jsx';
 import ProtectedRoute from './UI/ProtectedRoute.jsx';
 import CreateQuiz from './UI/CreateQuiz.jsx';
+import PlayQuiz from './Quiz/PlayQuiz.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,9 +40,8 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: 'createQuiz',
-            element: <AppLayout />,
-            children: [],
+            path: `/playQuiz/:id`,
+            element: <PlayQuiz />,
           },
         ],
       },
