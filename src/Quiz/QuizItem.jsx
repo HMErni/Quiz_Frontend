@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useDeleteQuizMutation } from './QuizAPI';
 import { useNavigate } from 'react-router-dom';
 
-function QuizItem({ quiz }) {
+function QuizItem({ quiz, result }) {
   const { role } = useSelector((state) => state.auth);
   const { id, quizItems } = quiz;
   const [deleteQuiz] = useDeleteQuizMutation();
@@ -14,12 +14,16 @@ function QuizItem({ quiz }) {
         deleteQuiz(quizId);
       }
     } catch (error) {
-      console.error("Can't delete quiz", error);
+      alert("Can't delete quiz", error);
     }
   };
 
   const handleEditQuiz = (quizId) => {
     navigate(`editQuiz/${quizId}`);
+  };
+
+  const handleStartQuiz = (quizId) => {
+    navigate(`/playQuiz/${quizId}`, { replace: true });
   };
 
   return (
@@ -42,13 +46,19 @@ function QuizItem({ quiz }) {
       )}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">{quiz.quizName}</h2>
-        <p className="font-semibold">Total Questions: {quizItems.length}</p>
+        <div className="text-right">
+          {result && <p className="font-semibold">Score: {result.score}</p>}
+          <p className="font-semibold">Questions: {quizItems.length}</p>
+        </div>
       </div>
       <div className="mt-5 min-h-max flex-grow justify-between">
         <span className="font-semibold">Description: </span>
         <p>{quiz.description}</p>
       </div>
-      <button className="mt-5 w-full flex-none rounded bg-fuchsia-800 px-4 py-2 font-bold text-white hover:bg-fuchsia-950">
+      <button
+        className="mt-5 w-full flex-none rounded bg-fuchsia-800 px-4 py-2 font-bold text-white hover:bg-fuchsia-950"
+        onClick={() => handleStartQuiz(id)}
+      >
         Start Quiz
       </button>
     </div>

@@ -11,6 +11,7 @@ import QuizesList from './Quiz/QuizesList.jsx';
 import ProtectedRoute from './UI/ProtectedRoute.jsx';
 import CreateQuiz from './UI/CreateQuiz.jsx';
 import PlayQuiz from './Quiz/PlayQuiz.jsx';
+import Score from './UI/Score.jsx';
 
 const router = createBrowserRouter([
   {
@@ -40,8 +41,18 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: `/playQuiz/:id`,
-            element: <PlayQuiz />,
+            path: `playQuiz/:id`,
+            element: <AppLayout />,
+            children: [
+              {
+                index: true,
+                element: <PlayQuiz />,
+              },
+              {
+                path: 'score',
+                element: <Score />,
+              },
+            ],
           },
         ],
       },

@@ -2,7 +2,6 @@ import QuizItem from './QuizItem';
 import { useSelector } from 'react-redux';
 import Welcome from '../Component/Welcome';
 import { useGetQuizesQuery } from './QuizAPI';
-import { useEffect } from 'react';
 
 function QuizesList() {
   const { data: Quizes, isLoading, isError, isSuccess } = useGetQuizesQuery();
@@ -15,12 +14,17 @@ function QuizesList() {
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error</p>}
       {isSuccess &&
-        Quizes.map((quiz) => (
-          <QuizItem
-            key={quiz.id}
-            quiz={quiz}
-          />
-        ))}
+        Quizes.map((quiz) => {
+          const matchingResult =
+            results.find((result) => result.quizListId === quiz.id) || null;
+          return (
+            <QuizItem
+              key={quiz.id}
+              quiz={quiz}
+              result={matchingResult}
+            />
+          );
+        })}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import {
 } from '../Quiz/QuizAPI';
 
 function QuizForm() {
-  const { id } = useParams(); // Assuming you are using react-router for routing
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const {

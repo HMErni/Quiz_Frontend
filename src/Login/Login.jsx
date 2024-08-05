@@ -28,6 +28,7 @@ function Login() {
     if (isSuccess) {
       dispatch(
         loginAuth({
+          id: User.id,
           username: User.username,
           role: User.role,
           results: User.results,

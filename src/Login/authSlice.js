@@ -31,6 +31,7 @@ const deleteStateFromLocalStorage = () => {
 
 const initialState = loadStateFromLocalStorage() || {
   isAuthenticated: false,
+  userId: null,
   userName: null,
   role: null,
   results: [],
@@ -44,6 +45,7 @@ const authSlice = createSlice({
       const newState = {
         ...state,
         isAuthenticated: true,
+        userId: action.payload.id,
         userName: action.payload.username,
         role: action.payload.role,
         results: action.payload.results,
