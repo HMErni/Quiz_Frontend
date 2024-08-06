@@ -34,7 +34,6 @@ const initialState = loadStateFromLocalStorage() || {
   userId: null,
   userName: null,
   role: null,
-  results: [],
 };
 
 const authSlice = createSlice({
@@ -48,7 +47,6 @@ const authSlice = createSlice({
         userId: action.payload.id,
         userName: action.payload.username,
         role: action.payload.role,
-        results: action.payload.results,
       };
       saveStateToLocalStorage(newState);
       return newState;

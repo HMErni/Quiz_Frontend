@@ -2,21 +2,37 @@ import QuizItem from './QuizItem';
 import { useSelector } from 'react-redux';
 import Welcome from '../Component/Welcome';
 import { useGetQuizesQuery } from './QuizAPI';
+import { useGetResultsQuery } from '../Login/UserAPI';
 
 function QuizesList() {
-  const { data: Quizes, isLoading, isError, isSuccess } = useGetQuizesQuery();
+  const {
+    data: Quizes,
+    isLoading: isQuizesLoading,
+    isError: isQuizesError,
+    isSuccess: isQuizesSuccess,
+  } = useGetQuizesQuery();
+  const {
+    data: results,
+    isLoading: isResultsLoading,
+    isError: isResultsError,
+    isSuccess: isResultsSuccess,
+  } = useGetResultsQuery();
 
-  const { results } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
 
   return (
     <div className="mt-7 h-dvh">
       <Welcome />
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error</p>}
-      {isSuccess &&
+      {(isQuizesLoading || isResultsLoading) && <p>Loading...</p>}
+      {(isQuizesError || isResultsError) && <p>Error</p>}
+      {isQuizesSuccess &&
+        isResultsSuccess &&
         Quizes.map((quiz) => {
           const matchingResult =
-            results.find((result) => result.quizListId === quiz.id) || null;
+            results.find(
+              (result) =>
+                result.quizListId === quiz.id && result.userId === userId,
+            ) || null;
           return (
             <QuizItem
               key={quiz.id}

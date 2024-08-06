@@ -12,6 +12,7 @@ import ProtectedRoute from './UI/ProtectedRoute.jsx';
 import CreateQuiz from './UI/CreateQuiz.jsx';
 import PlayQuiz from './Quiz/PlayQuiz.jsx';
 import Score from './UI/Score.jsx';
+import Register from './Login/Register.jsx';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Login /> },
+      { path: 'Register', element: <Register /> },
       {
         element: <ProtectedRoute />,
         children: [
@@ -49,7 +51,7 @@ const router = createBrowserRouter([
                 element: <PlayQuiz />,
               },
               {
-                path: 'score',
+                path: 'result',
                 element: <Score />,
               },
             ],

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetQuizbyIdQuery } from './QuizAPI';
+import { useGetQuizbyIdQuery, useGetQuizResultQuery } from './QuizAPI';
 import { useSelector } from 'react-redux';
+import {
+  useCreateResultMutation,
+  useGetResultsQuery,
+  useUpdateResultMutation,
+} from '../Login/UserAPI';
 
 // Utility function to shuffle an array
 function shuffleArray(array) {
@@ -11,13 +16,19 @@ function shuffleArray(array) {
 function PlayQuiz() {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const { data: quizData, error, isLoading } = useGetQuizbyIdQuery(id);
+  const { data: results } = useGetResultsQuery();
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [shuffledChoices, setShuffledChoices] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
+  const [answers, setAnswers] = useState([]);
 
-  const { results, userId } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
+
+  const [createResult] = useCreateResultMutation();
+  const [updateResult] = useUpdateResultMutation();
 
   useEffect(() => {
     if (quizData) {
@@ -34,27 +45,57 @@ function PlayQuiz() {
     navigate('/dashboard', { replace: true });
   };
 
+  const handleSubmit = (finalAnswers) => {
+    let calculatedScore = 0;
+    finalAnswers.forEach((answer, index) => {
+      if (answer === quizData.quizItems[index].correctAnswer) {
+        calculatedScore += 1;
+      }
+    });
+
+    const result = results.find(
+      (result) => result.quizListId === quizData.id || null,
+    );
+
+    if (result) {
+      console.log('Result Found', calculatedScore);
+
+      const newResult = {
+        score: calculatedScore,
+      };
+
+      updateResult({ id: result.id, result: newResult });
+    } else {
+      console.log('Result Not Found', calculatedScore);
+      try {
+        const newResult = {
+          score: calculatedScore,
+          quizListId: quizData.id,
+          userId: userId,
+        };
+        createResult(newResult);
+      } catch (error) {
+        console.error('Error creating result', error);
+      }
+    }
+
+    navigate('result', {
+      state: {
+        score: calculatedScore,
+        totalQuestions: quizData.quizItems.length,
+      },
+    });
+  };
+
   const handleNext = () => {
     if (selectedAnswer !== null) {
-      if (selectedAnswer === currentQuestion.correctAnswer) {
-        setScore((score) => score + 1);
-      }
-      setSelectedAnswer(null);
-
+      const newAnswers = [...answers, selectedAnswer];
+      setAnswers(newAnswers);
+      setSelectedAnswer(null); // Reset selected answer
       if (currentQuestionIndex < quizData.quizItems.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
-        const result = results.find(
-          (result) => result.quizListId === quizData.id || null,
-        );
-
-        if (result) {
-          console.log('Result Found', score);
-        } else {
-          console.log('No result found', score);
-        }
-
-        navigate('score');
+        handleSubmit(newAnswers); // Pass the final answers to handleSubmit
       }
     } else {
       alert('Please select an answer');
@@ -80,7 +121,7 @@ function PlayQuiz() {
           {shuffledChoices.map((choice, index) => (
             <button
               key={index}
-              className="min-w-fit rounded border-2 border-fuchsia-700 px-4 py-2 hover:bg-fuchsia-700 hover:text-white focus:bg-fuchsia-800 focus:text-white md:min-w-[40%]"
+              className={`min-w-fit rounded border-2 border-fuchsia-700 px-4 py-2 hover:bg-fuchsia-700 hover:text-white focus:bg-fuchsia-800 focus:text-white md:min-w-[40%] ${selectedAnswer === choice ? 'bg-fuchsia-800 text-white' : ''}`}
               onClick={() => {
                 setSelectedAnswer(choice);
               }}
