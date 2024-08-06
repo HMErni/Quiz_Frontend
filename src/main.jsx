@@ -5,14 +5,14 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './store.js';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Login from './Login/Login.jsx';
+import Login from './Auth/Login.jsx';
 import AppLayout from './UI/AppLayout.jsx';
 import QuizesList from './Quiz/QuizesList.jsx';
 import ProtectedRoute from './UI/ProtectedRoute.jsx';
 import CreateQuiz from './UI/CreateQuiz.jsx';
 import PlayQuiz from './Quiz/PlayQuiz.jsx';
 import Score from './UI/Score.jsx';
-import Register from './Login/Register.jsx';
+import Register from './Auth/Register.jsx';
 
 const router = createBrowserRouter([
   {

@@ -2,7 +2,7 @@ import QuizItem from './QuizItem';
 import { useSelector } from 'react-redux';
 import Welcome from '../Component/Welcome';
 import { useGetQuizesQuery } from './QuizAPI';
-import { useGetResultsQuery } from '../Login/UserAPI';
+import { useGetResultsQuery } from '../Auth/UserAPI';
 
 function QuizesList() {
   const {
@@ -23,24 +23,26 @@ function QuizesList() {
   return (
     <div className="mt-7 h-dvh">
       <Welcome />
-      {(isQuizesLoading || isResultsLoading) && <p>Loading...</p>}
-      {(isQuizesError || isResultsError) && <p>Error</p>}
-      {isQuizesSuccess &&
-        isResultsSuccess &&
-        Quizes.map((quiz) => {
-          const matchingResult =
-            results.find(
-              (result) =>
-                result.quizListId === quiz.id && result.userId === userId,
-            ) || null;
-          return (
-            <QuizItem
-              key={quiz.id}
-              quiz={quiz}
-              result={matchingResult}
-            />
-          );
-        })}
+      <div className="flex flex-col md:flex-row">
+        {(isQuizesLoading || isResultsLoading) && <p>Loading...</p>}
+        {(isQuizesError || isResultsError) && <p>Error</p>}
+        {isQuizesSuccess &&
+          isResultsSuccess &&
+          Quizes.map((quiz) => {
+            const matchingResult =
+              results.find(
+                (result) =>
+                  result.quizListId === quiz.id && result.userId === userId,
+              ) || null;
+            return (
+              <QuizItem
+                key={quiz.id}
+                quiz={quiz}
+                result={matchingResult}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 }

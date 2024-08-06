@@ -27,7 +27,7 @@ function QuizItem({ quiz, result }) {
   };
 
   return (
-    <div className="mx-5 mt-5 flex min-h-80 flex-col rounded-lg border-2 border-fuchsia-700 p-5">
+    <div className="mx-5 mt-5 flex min-h-80 min-w-[350px] flex-col rounded-lg border-2 border-fuchsia-700 p-5">
       {role === 'admin' && (
         <div className="mb-3 space-x-2 text-right">
           <button

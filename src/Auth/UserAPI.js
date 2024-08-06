@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
 export const userAPI = createApi({
   reducerPath: 'Login',
   baseQuery: fetchBaseQuery({
@@ -34,6 +35,7 @@ export const userAPI = createApi({
       }),
       providesTags: ['User'],
     }),
+
     createResult: builder.mutation({
       query: (result) => ({
         url: '/Result',
@@ -43,6 +45,7 @@ export const userAPI = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
     updateResult: builder.mutation({
       query: ({ id, result }) => ({
         url: `/Result/${id}`,

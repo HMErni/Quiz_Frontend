@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetQuizbyIdQuery, useGetQuizResultQuery } from './QuizAPI';
+import { useGetQuizbyIdQuery } from './QuizAPI';
 import { useSelector } from 'react-redux';
 import {
   useCreateResultMutation,
   useGetResultsQuery,
   useUpdateResultMutation,
-} from '../Login/UserAPI';
+} from '../Auth/UserAPI';
 
 // Utility function to shuffle an array
 function shuffleArray(array) {
@@ -53,12 +53,13 @@ function PlayQuiz() {
       }
     });
 
-    const result = results.find(
-      (result) => result.quizListId === quizData.id || null,
+    let result = results.find(
+      (result) =>
+        (result.quizListId === quizData.id && result.userId === userId) || null,
     );
 
     if (result) {
-      console.log('Result Found', calculatedScore);
+      console.log('Result Found', calculatedScore, result.id);
 
       const newResult = {
         score: calculatedScore,
@@ -67,6 +68,7 @@ function PlayQuiz() {
       updateResult({ id: result.id, result: newResult });
     } else {
       console.log('Result Not Found', calculatedScore);
+
       try {
         const newResult = {
           score: calculatedScore,
